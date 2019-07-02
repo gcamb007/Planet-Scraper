@@ -1,22 +1,14 @@
-// Dependencies
-// var mongojs = require("mongojs");
 var express = require("express");
-
 // Initialize Express
-// var app = express();
+var app = express();
 
 // Require axios and cheerio. This makes the scraping possible
 var cheerio = require("cheerio");
 var request = require("request");
 
 // Requiring Comment and Article models
-var Comment = require("../models/Comment,js");
+var Comment = require("../models/Comment.js");
 var Article = require("../models/Article.js");
-
-// Set up a static folder (public) for our web app
-app.use(express.static("public"));
-
-var port = process.env.PORT || 3000;
 
 // Database configuration
 // Save the URL of our database as well as the name of our collection
@@ -32,7 +24,7 @@ db.on("error", function (error) {
 });
 
 
-// Routes
+// HTML Routes
 
 // Route for getting all Articles from the db
 app.get("/articles", function (req, res) {
@@ -54,8 +46,8 @@ app.get("/articles/:id", function (req, res) {
     db.Article.findOne({
             _id: req.params.id
         })
-        // ..and populate all of the notes associated with it
-        .populate("note")
+        // ..and populate all of the comments associated with it
+        .populate("comments")
         .then(function (dbArticle) {
             // If we were able to successfully find an Article with the given id, send it back to the client
             res.json(dbArticle);
@@ -66,29 +58,8 @@ app.get("/articles/:id", function (req, res) {
         });
 });
 
-// Route for saving/updating an Article's associated Comment
-app.post("/articles/:id", function (req, res) {
-    // Create a new note and pass the req.body to the entry
-    db.Note.create(req.body)
-        .then(function (dbComment) {
-            return db.Article.findOneAndUpdate({
-                _id: req.params.id
-            }, {
-                note: dbComment._id
-            }, {
-                new: true
-            });
-        })
-        .then(function (dbArticle) {
-            // If we were able to successfully update an Article, send it back to the client
-            res.json(dbArticle);
-        })
-        .catch(function (err) {
-            // If an error occurred, send it to the client
-            res.json(err);
-        });
-});
 
+// API Routes
 // A GET route for scraping the BBC website
 app.get("/scrape", function (req, res) {
     // First, we grab the body of the html with axios
@@ -98,64 +69,35 @@ app.get("/scrape", function (req, res) {
 
         // Now, we grab the information from the article html elements, and do the following:
         //Articles with images
-        $(".has-image").each(function (i, element) {
+        $(".media block-link").each(function (i, element) {
             // Save an empty result object
             var result = {};
             // Add the text and href of every link, and save them as properties of the result object
-            result.link = $(this)
-                .children(".item-info")
-                .children(".title")
-                .children()
-                .attr("href");
-            result.title = $(this)
-                .children(".item-info")
-                .children(".title")
-                .children()
-                .text();
-            result.snipText = $(this)
-                .children(".item-info")
-                .children(".teaser")
-                .children("a")
-                .text();
             result.imageLink = $(this)
-                .children(".item-image")
-                .children(".imagewrap")
+                .children(".media_image")
+                .children(".responsive_image")
                 .children("a")
                 .children("img")
-                .attr("src");
-
-            // Create a new Article using the `result` object built from scraping
-            db.Article.create(result)
-                .then(function (dbArticle) {
-                    // View the added result in the console
-                    console.log(dbArticle);
-                })
-                .catch(function (err) {
-                    // If an error occurred, log it
-                    console.log(err);
-                });
-        });
-        //Articles without images
-        $(".no-image").each(function (i, element) {
-            // Save an empty result object
-            var result = {};
-            // Add the text and href of every link, and save them as properties of the result object
-            result.link = $(element)
-                .children(".item-info")
-                .children(".title")
-                .children()
-                .attr("href");
-            result.title = $(element)
-                .children(".item-info")
-                .children(".title")
+                .attr("src")
+            result.title = $(this)
+                .children(".media_content")
+                .children("h3")
+                .children(".media_title")
+                .text();
+            result.snipText = $(this)
+                .children("p")
+                .children(".media_summary")
+                .text();
+            result.link = $(this)
+                .children("h3")
                 .children("a")
-                .text();
-            result.snipText = $(element)
-                .children(".item-info")
-                .children(".teaser")
-                .children()
-                .text();
-            result.imageLink = "no image";
+                .children(".media_link")
+                .attr("href");
+            result.location = $(this)
+                .children("media_content")
+                .children("a")
+                .children("media_tag")
+                .attr("href")
 
             // Create a new Article using the `result` object built from scraping
             db.Article.create(result)
@@ -168,6 +110,7 @@ app.get("/scrape", function (req, res) {
                     console.log(err);
                 });
         });
+
 
         // Concole log the results from the scraped articles
         console.log(results);
