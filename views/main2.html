@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Mongo Scraper</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../public/assets/css/styles.css">
+</head>
+
+
+
+{{!---------NavBar---------------------------------------------------------------------------------------}}
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-light ">
+    <a class="navbar-brand mr-8" href="/"><span class="sub-title pb-1">The NBA NEWS Edition</span></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse mr-2" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="active mr-4"><a href="/">Home</a></li>
+
+            <li class=" Saved Articles active"><a href="/saved">Saved</a></li>
+        </ul>
+    </div>
+</nav>
+
+{{!---------Jumbotron---------------------------------------------------------------------------------------}}
+
+<div class="jumbotron jumbotron-fluid text-center">
+    <div class="container ">
+        <h1 class="lead display-4 text-center mt-7">MONGO SCRAPER</h1>
+        <a class="btn btn-warning rounded-pill scrape-news">Get NBA News</a>
+    </div>
+</div>
+<div class="container-fluid article-container">
+</div>
+
+{{!---------Returned Article--------------------------------------------------------------------------------------}}
+
+<div class="card mx-5 mt-0">
+    <h5 class="card-header "><span class="mr-6">Article Title</span><span><a href="#"
+                class="btn btn-danger mr-3 article-btn">Add Note</a></span> <span class="mr-5"><a href="#"
+                class="btn btn-danger article-btn">Delete</a></span></h5>
+    <div class="card-body">
+        <p class="card-text">Article Title and Link.</p>
+    </div>
+</div>
+
+
+
+{{!---------Styling---------------------------------------------------------------------------------------}}
+
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .navbar {
+        background-color: #001a33;
+    }
+
+    .sub-title,
+    .active,
+    a {
+        color: #f8f8ff !important;
+    }
+
+    a:hover {
+        color: #e1AD01 !important;
+    }
+
+    .rounded-pill {
+        color: #001a33 !important;
+    }
+
+    .rounded-pill:hover {
+        color: #f8f8ff !important;
+    }
+
+    .sub-title {
+        font-size: 2rem;
+        text-decoration: underline;
+    }
+
+    /* . {
+        font-size: 1rem;
+    } */
+
+    .jumbotron {
+        background-image: url("https://mashtrelo.com/wp-content/uploads/2017/11/nba-wallpapers.jpg");
+        height: 80vh;
+        background-size: cover;
+        background-position: center;
+        color: #001a33;
+    }
+
+    .mt-7 {
+        margin-top: 37%;
+    }
+
+    .mr-6 {
+        margin-right: 70%;
+    }
+
+    .mr-8 {
+        margin-right: 65% !important;
+    }
+
+
+    .btn {
+        background-color: #f8f8ff;
+    }
+
+    .card-header {
+        background-color: #001a33;
+        border: 3px solid #e1AD01;
+        color: #f8f8ff;
+    }
+
+    .article-btn {
+        color: #001a33;
+        border: 1px solid #e1AD01;
+        background-color: #e1AD01;
+    }
+</style>
+
+{{!---------Footer---------------------------------------------------------------------------------------}}
+
+<footer class="footer text-center">
+    <div class="container">
+        <p>Mongo Scraper: ESPN NBA News</p>
+    </div>
+</footer>
+
+
+{{!---------BootStrap JS/Poppers---------------------------------------------------------------------------------------}}
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="../public/assets/javascript/index.js"></script>
+
+</body>
+
+</html>

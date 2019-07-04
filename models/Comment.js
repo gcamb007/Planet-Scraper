@@ -3,17 +3,28 @@ var mongoose = require("mongoose");
 // Save a reference to the Schema constructor
 var Schema = mongoose.Schema;
 
-// Using the Schema constructor, create a new NoteSchema object
-// This is similar to a Sequelize model
+// Using the Schema constructor, create a new CommentSchema object
 var CommentSchema = new Schema({
-    // "title" is of type String
+    // "author" is of type String
     author: {
         type: String
     },
     // "body" is of type String
     body: {
         type: String
-    }
+    },
+
+    // "comments" must be validated with a max number of characters
+    comments: [{
+        type: Schema.Types.ObjectId,
+        ref: "Comment",
+        validate: [
+            function (input) {
+                return input.length <= 250;
+            },
+            "250 characters or less."
+        ]
+    }]
 });
 
 // This creates our model from the above schema, using mongoose's model method

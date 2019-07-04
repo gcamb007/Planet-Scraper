@@ -1,16 +1,28 @@
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
 // Save a reference to the Schema constructor
-var Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
 // Using the Schema constructor, create a new ArticleSchema object
-var ArticleSchema = new Schema({
+const ArticleSchema = new Schema({
+
+    // "image" must be of type String
+    // "image" is a required field and throws a custom error message if not supplied
+    imageLink: {
+        type: String
+    },
 
     // "title" must be of type String
     // "title" is a required field and throws a custom error message if not supplied
     title: {
         type: String,
         required: true
+    },
+
+    // "preview" must be of type String
+    // "preview" is a required field and throws a custom error message if not supplied
+    snipText: {
+        type: String
     },
 
     // "link" must be of type String
@@ -20,34 +32,17 @@ var ArticleSchema = new Schema({
         required: true
     },
 
-    // "image" must be of type String
-    // "image" is a required field and throws a custom error message if not supplied
-    image: {
-        type: String
+    // "location" must be of type String
+    // "location" is not a required field
+    location: {
+        type: String,
+        required: false
     },
-
-    // "preview" must be of type String
-    // "preview" is a required field and throws a custom error message if not supplied
-    preview: {
-        type: String
-    },
-
-    // "comments" must follow CommentSchema type
-    comments: [{
-        type: Schema.Types.ObjectId,
-        ref: "Comment",
-        validate: [
-            function(input) {
-              return input.length <= 250;
-            },
-            "250 characters or less."
-          ]
-    }]
 
 });
 
 // This creates our model from the above schema, using mongoose's model method
-var Article = mongoose.model("Article", ArticleSchema);
+const Article = mongoose.model("Article", ArticleSchema);
 
 // Export the Comment model
 module.exports = Article;
