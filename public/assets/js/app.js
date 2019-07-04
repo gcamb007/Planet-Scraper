@@ -1,11 +1,10 @@
 $(document).ready(function () {
 
-    var cardShowHeight = parseInt($(".mdl-card__title").outerHeight(true) + $(".mdl-card__actions").outerHeight() + $(".mdl-card__supporting-text:first").outerHeight());
+    const cardShowHeight = parseInt($(".mdl-card__title").outerHeight(true) + $(".mdl-card__actions").outerHeight() + $(".mdl-card__supporting-text:first").outerHeight());
 
     $(".showComment").click(function () {
 
-        var currComment = $(this).closest("div").siblings(".comments");
-        //$(this).closest("div").siblings(".comments").toggle();
+        const currComment = $(this).closest("div").siblings(".comments");
 
         $(currComment).toggle();
 
@@ -35,17 +34,17 @@ $(document).ready(function () {
     });
 });
 
-// When you click the add comment button
+// Add a comment
 $(document).on("click", ".addComment", function (e) {
 
     e.preventDefault();
-    var currName = $(this).siblings().find(".uname-input");;
-    //var currName="test";
-    var currCommentText = $(this).siblings().find(".comment-input");
+    const currName = $(this).siblings().find(".uname-input");;
+    //const currName="test";
+    const currCommentText = $(this).siblings().find(".comment-input");
     //console.log($(this).closest("div.comments").html());
-    var currCommentSec = $(this).closest("div.comments");
+    const currCommentSec = $(this).closest("div.comments");
     // Grab the id associated with the article from the submit button
-    var thisId = $(this).attr("data-id");
+    const thisId = $(this).attr("data-id");
 
     // Run a POST request to change the note, using what's entered in the inputs
     $.ajax({
@@ -64,18 +63,17 @@ $(document).on("click", ".addComment", function (e) {
                     method: "GET",
                     url: "/article/" + thisId
                 })
-                // With that done, add the note information to the page
+                // Add the comment information to the page
                 .done(function (data) {
-
                     if (data.comments) {
                         console.log(data.comments[0].author);
 
-                        var commentHtml = "<div class=\"mdl-card__supporting-text mdl-card--border\"><div class=\"comment-body\">" +
+                        const commentHtml = "<div class=\"mdl-card__supporting-text mdl-card--border\"><div class=\"comment-body\">" +
                             "<strong>" + data.comments[data.comments.length - 1].author + "</strong><p>" +
                             data.comments[data.comments.length - 1].body + "</p></div><div><button class=\"mdl-button mdl-js-button mdl-button--icon comment-action\"> <i class=\"material-icons\">delete_forever</i></button></div></div>";
 
                         $(currCommentSec).prepend(commentHtml);
-                        // // Also, remove the values entered in the input and textarea for comments
+                        // Clear the input and textarea for comments
                         currName.val("").parent().removeClass("is-dirty");
                         currCommentText.val("").parent().removeClass("is-dirty");
                     }
@@ -83,7 +81,7 @@ $(document).on("click", ".addComment", function (e) {
         });
 });
 
-//delete a comment
+//Delete a comment
 $(document).on("click", ".comment-action", function (e) {
     $(this).closest(".mdl-card__supporting-text").hide();
 });

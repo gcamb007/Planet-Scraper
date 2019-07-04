@@ -18,7 +18,7 @@ module.exports = function (app) {
         // First, we grab the body of the html with axios
         axios.get("https://www.bbc.com/").then(function (response) {
             // Then, we load that into cheerio and save it to $ for a shorthand selector
-            var $ = cheerio.load(html);
+            var $ = cheerio.load(res.data);
 
             // Now, we grab the information from the article html elements, and do the following:
             //Articles with images
@@ -37,7 +37,7 @@ module.exports = function (app) {
                     .children("h3")
                     .children(".media_title")
                     .text();
-                result.snipText = $(this)
+                result.preview = $(this)
                     .children("p")
                     .children(".media_summary")
                     .text();

@@ -1,8 +1,22 @@
-.mdl-layout__header,
+body {
+    background-image: url(../images/_83122356_globe_2048x1152.png);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+/* .demo-layout-transparent {
+    background: url("../../assets/images/blog6.jpg") center / contain;
+    min-height: 38%;
+} */
+
+.mdl-layout__header {
+    color: rgb(120, 0, 0);
+}
+
 .mdl-layout__drawer-button {
-    /* This background is dark, so we set text to white. Use 87% black instead if
-       your background is light. */
-    color: black;
+    color: rgb(120, 0, 0);
 }
 
 .wide-card.mdl-card {
