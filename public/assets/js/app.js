@@ -35,7 +35,7 @@ $(document).ready(function () {
     });
 });
 
-//   // When you click the add comment button
+// When you click the add comment button
 $(document).on("click", ".addComment", function (e) {
 
     e.preventDefault();
