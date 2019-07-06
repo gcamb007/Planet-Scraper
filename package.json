@@ -17,6 +17,9 @@
   },
   "homepage": "https://github.com/gcamb007/Planet-Scraper#readme",
   "dependencies": {
+    "@angular/animations": "^8.1.0",
+    "@angular/cdk": "^8.0.2",
+    "@angular/material": "^8.0.2",
     "axios": "^0.19.0",
     "cheerio": "^1.0.0-rc.3",
     "express": "^4.17.1",

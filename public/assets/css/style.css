@@ -21,6 +21,12 @@ body {
 
 .wide-card.mdl-card {
     width: 512px;
+    height: 300px;
+}
+
+.wide-card.mdl-card img {
+    width: 150px;
+    text-align: center;
 }
 
 .material-icons.grey {
