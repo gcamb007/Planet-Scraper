@@ -7,9 +7,23 @@ const db = require("../models");
 
 // HTML Routes
 module.exports = function (app) {
+    
     app.get("/", function (req, res) {
+        // Grab every document in the Articles collection
+        db.Article.find({})
+        .then(function (dbArticle) {
+            // If we were able to successfully find Articles, send them back to the client
+            // res.json(dbArticle);
+            let hbs = {
+                articles: dbArticle
+            }
+            res.render("index", hbs);
 
-        res.render("index");
+        })
+        .catch(function (err) {
+            // If an error occurred, send it to the client
+            res.json(err);
+        });
     });
 
     // API Routes
@@ -18,11 +32,13 @@ module.exports = function (app) {
         // First, we grab the body of the html with axios
         axios.get("https://www.bbc.com/").then(function (response) {
             // Then, we load that into cheerio and save it to $ for a shorthand selector
-            var $ = cheerio.load(res.data);
+            // console.log(response.data);
+            var $ = cheerio.load(response.data);
 
             // Now, we grab the information from the article html elements, and do the following:
             //Articles with images
-            $(".media").each(function (i, element) {
+            $(".media__link").each(function (i, element) {
+                
                 // Save an empty result object
                 var result = {};
                 // Add the text and href of every link, and save them as properties of the result object
@@ -33,25 +49,19 @@ module.exports = function (app) {
                     .children("img")
                     .attr("src")
                 result.title = $(this)
-                    .children(".media_content")
-                    .children("h3")
-                    .children(".media_title")
                     .text();
                 result.preview = $(this)
-                    .children("p")
-                    .children(".media_summary")
+                    .parents("p")
+                    .siblings(".media_summary")
                     .text();
                 result.link = $(this)
-                    .children("h3")
-                    .children("a")
-                    .children(".media_link")
                     .attr("href");
                 result.location = $(this)
                     .children("media_content")
                     .children("a")
                     .children("media_tag")
                     .attr("href")
-
+                console.log(result);
                 // Create a new Article using the `result` object built from scraping
                 db.Article.create(result)
                     .then(function (dbArticle) {
